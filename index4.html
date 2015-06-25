@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sample</title>
+
+<link rel="stylesheet" href="css\leaflet_0_7_3.css" type="text/css" />
+
+<!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+<script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
+<script type="text/javascript" src="js/leaflet_0_7_3.js"></script>
+<!-- <script type="text/javascript" src="js/csv-to-json.js"></script> -->
+<script type="text/javascript" src="js/reformat.js"></script>
+<!-- <script type="text/javascript" src="js/sg_geojson.js"></script> -->
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<!-- <script src="http://d3js.org/topojson.v1.min.js"></script> -->
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+<script type="text/javascript" src="js/data1.js"></script>
+
+</head>
+<body>
+	<div id="container">
+		<div id="map"></div>
+		<div id="rightmenu">
+			<div id="dvImportSegments" class="fileupload ">
+				<fieldset>
+					<legend>Upload your CSV File</legend>
+					<input type="file" name="File Upload" id="txtFileUpload"
+						accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+				</fieldset>
+			</div>
+			<div id="dataset">
+				<table id="myTable" >
+					<tr><td>sample1.csv</td><td><button onclick="render_sample1();">&#9658;</button></td></tr>
+					<tr><td>sample2.csv</td><td><button onclick="render_sample1();">&#9658;</button></td></tr>
+				</table>
+			</div>
+			<h3>TIME</h3>
+			<div id="displaytime"></div>
+			<div id="slidertime" style="width: 80%px; margin-left:10%; margin-right:10%; margin-top:15px;"></div>
+			<div id="sliderlabel" style="width: 80%px; margin-left:10%; margin-right:10%; margin-top:15px;"></div>
+			<!-- <div id="playbutton">
+				<button onclick="render();">&#9658;</button>
+			</div> -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/main.js"></script>
+</html>

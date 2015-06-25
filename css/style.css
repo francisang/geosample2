@@ -1,0 +1,115 @@
+body{
+	margin: 0;
+}
+#container {
+    width: 100%;
+    height: 643px;
+}
+#map{
+	height: 100%;
+  	width: 80%;
+  	position: absolute;
+}
+#rightmenu{
+  width: 20%;
+  height: 100%;
+  position: absolute;
+  left: 1092.8px;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-shadow: -5px 0 8px 0px rgba(0, 0, 0, 0.6);
+}
+#dvImportSegments {
+  width: 100%;
+  color: white;
+  /* padding-bottom: 10px; */
+  padding-top: 10px;
+  font-size: 20px;
+}
+#dataset {
+  color: white;
+  padding: 10px;
+}
+#displaytime{
+  width: 96%;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding-bottom: 10px;
+  padding-left: 9px;
+  font-size: 30px;
+  color: white;
+}
+h3 {
+	color: white;
+  font-size: 23px;
+  text-align: center;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  font-family: serif;
+  font-weight: normal;
+}
+
+
+
+#dvImportSegments fieldset {
+  border: none;
+}
+div.leaflet-popup-content {
+  width: auto !important;
+  margin: -1px -1px;
+  line-height: 1.2;
+  font: normal 12px/150% Arial, Helvetica, sans-serif;
+  background: #FAFAFA;
+  overflow: hidden;
+  border: 2px solid #00AAFF;
+  border-radius: 8px;
+}
+tr.alt {
+  background-color: lightblue;
+}
+svg{
+	width: auto;
+	height: auto;
+}
+svg.overlay-point {
+  padding: 4px;
+}
+svg.overlay-line {
+  padding: 4px;
+}
+.overlay-point path {
+  stroke: black;
+  /* stroke-dasharray: .5; */
+  stroke-opacity: 0.6;
+}
+svg.leaflet-zoom-animated {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+table, th, td {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 4px;
+}
+table#myTable {
+  border-bottom: 2.5px solid rgba(255, 255, 255, 0.6);
+  border-top: 2.5px solid rgba(255, 255, 255, 0.6);
+}
+}
+.ui-slider-horizontal .ui-slider-handle {
+  top: -4px !important;
+  margin-left: -.6em;
+}
+.ui-slider .ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 0.7em;
+  height: 0.7em;
+  cursor: default;
+}
+.ui-slider-horizontal {
+  height: .4em;
+}
+

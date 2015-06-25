@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+       <meta charset="UTF-8">
+       <title>Sample</title>
+      
+       <link rel="stylesheet" href="css\leaflet_0_7_3.css" type="text/css" />
+       <link rel="stylesheet" href="css\style.css" type="text/css" />
+       <script type="text/javascript" src="js/jquery.js"></script>
+       <script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
+       <script type="text/javascript" src="js/leaflet_0_7_3.js"></script>
+       <!-- <script type="text/javascript" src="js/csv-to-json.js"></script> -->
+       <script type="text/javascript" src="js/reformat.js"></script>
+       <script type="text/javascript" src="js/sg_geojson.js"></script>
+       <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+       <!-- <script src="http://d3js.org/topojson.v1.min.js"></script> -->
+       
+      
+       <script type="text/javascript">  //uploadCSV File into "data"
+   
+    $(document).ready(function() {
+    // The event listener for the file upload
+    document.getElementById('txtFileUpload').addEventListener('change', upload, false); //addEventListener(event,function,useCapture)
+     
+    // Method that checks that the browser supports the HTML5 File API
+    function browserSupportFileUpload() {
+        var isCompatible = false;
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+        isCompatible = true;
+        }
+        return isCompatible;
+    }
+   
+    function style() { //for sg_geojson
+        return {
+            fillColor: white,
+            weight: 1,
+            opacity: 1,
+            color: 'white',
+            dashArray: '1',
+            fillOpacity: 0.5
+        };
+    } 
+    // Method that reads and processes the selected file
+    function upload(evt) {
+    if (!browserSupportFileUpload()) {
+        alert('The File APIs are not fully supported in this browser!');
+        } else {
+            var data = null;
+            var file = evt.target.files[0];
+            //filename = evt.target.files[0].name;
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                //data = csvJSON(csvData);
+                data = $.csv.toArrays(csvData); //using jquery.csv-0.71.js
+                arr = reformat(data);
+                   //Convert data into geojson
+                   geodata = { type: "FeatureCollection", features: csv2geojson(arr) };
+                    
+                   function onEachFeature(feature, layer) {
+                                  var popupContent = TablePopupContent(feature);                             
+                                  layer.bindPopup(popupContent);
+                           }
+                  
+                   //Add sg_geojson
+                   var sg;
+                   var info = L.control();
+                   var myStyle = {
+                            fillColor: '#C6E2FF',
+                           weight: 1,
+                           opacity: 1,
+                           color: 'blue',
+                           dashArray: '1',
+                           fillOpacity: 0.5
+                                  };
+                  
+                   
+                   sg= L.geoJson(sg_geojson, {
+                       style: myStyle  //call style function
+                   }).addTo(map);
+                 
+                  
+                   //Add uploaded data point
+                      myLayer = L.geoJson(geodata, {
+      
+                                          style: function (feature) {
+                                                return feature.properties && feature.properties.style;
+                                          },
+                    
+                                          onEachFeature: onEachFeature,
+                    
+                                          pointToLayer: function (feature, latlng) {
+                                                return L.circleMarker(latlng, {
+                                                       radius: 4,
+                                                       fillColor: "#ff7800",
+                                                       color: "#000",
+                                                       weight: 1,
+                                                       opacity: 1,
+                                                       fillOpacity: 0.8
+                                                });
+                                          }
+                                   }).addTo(map); 
+                     //Get boundary from uploaded file, then zoom it
+                     var bounds = myLayer.getBounds();
+                     map.fitBounds(bounds, {padding: [10, 10]}); 
+                    
+                     //Add layer Control (default position: right top)
+                       /*   var overlayMaps = {
+                                        "Layer Background": sg, 
+                                "Uploaded Data": myLayer
+                            };
+                         L.control.layers(overlayMaps).addTo(map); */
+                         
+               }; // end of reader.onload
+              
+            reader.onerror = function() {
+                alert('Unable to read ' + file.fileName);
+            };
+         
+        }
+    }
+    
+    //Reformat
+    /* function reformat(data){
+       arr= [];
+        //var header = data[0]; //header from csv
+              for (var j=1; j < data.length; j++){
+                     arr.push({
+                           MMSI: String(data[j][0]),
+                           MessageType : String(data[j][1]),
+                           Time : String(data[j][2]),
+                           Channel : String(data[j][3]),
+                           SpeedOverGround : String(data[j][4]),
+                           Longitude : String(data[j][5]),
+                           Latitude : String(data[j][6])
+                     });
+              }
+    return arr;
+    } */
+   
+    //Convert CSV array into GeoJSON
+    /* function csv2geojson(arr) {
+         jsondata = [];
+         arr.map(function (d){
+           jsondata.push({
+             properties: {
+               MMSI: d.MMSI,
+               MessageType: d.MessageType,
+               Time: d.Time,
+               Channel: d.Channel,
+               SpeedGroundOver: +d.SpeedGroundOver
+             },
+             type: "Feature",
+             geometry: {
+               coordinates:[+d.Longitude,+d.Latitude],
+               type:"Point"
+             }
+           });
+         });
+         return jsondata;
+    } */
+   
+       });
+       </script>
+</head>
+<body>
+       <div id="container">
+              <div id="map"></div>
+              <div id="dvImportSegments" class="fileupload ">
+                  <fieldset>
+                      <legend>Upload your CSV File</legend>
+                          <input type="file" name="File Upload" id="txtFileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                     </fieldset>
+              </div>
+       </div>
+</body>
+       <script type="text/javascript">
+              var map = L.map('map', {
+                     center : [0,0],
+                     zoom:3
+                     });
+              // Openstreetmap layer
+              L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; OpenStreetMap contributors'
+              }).addTo(map);
+             
+             
+             
+       </script>
+</html>
